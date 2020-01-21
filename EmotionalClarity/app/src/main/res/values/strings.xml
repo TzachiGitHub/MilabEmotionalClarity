@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EmotionalClarity</string>
+    <string name="title_activity_audio_recored_test">AudioRecoredTest</string>
 </resources>
