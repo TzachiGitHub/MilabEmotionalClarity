@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name">EmotionalClarity</string>
     <string name="title_activity_audio_recored_test">AudioRecoredTest</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_audio_record_test">AudioRecordTest</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="description">"This is the microphone button - press here to record an Audio"</string>
+    <string name="start">"Start"</string>
+    <string name="toBeUpdated">"This is to be deleted or updated"</string>
+    <string name="micButton">"This is the microphone start button which activates the AudioRecordTest Activity (- soon to be fragment)"</string>
+    <string name="playButton">"This button activates the sound which was recorded in the AudioRecordTest Activity"</string>
+    <string name="cameraButton">"This button activates the camera features - in an Activity (- soon to be fragment)"</string>
+    <string name="pictureImageView">"This ImageView holds the current pictures taken by the user"</string>
 </resources>
