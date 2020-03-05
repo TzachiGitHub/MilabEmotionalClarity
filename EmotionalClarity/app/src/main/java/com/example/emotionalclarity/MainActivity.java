@@ -8,12 +8,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,18 +22,33 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG_MAINACTIVITY = "MainActivity";
+    private static final int TEXTBOX_REQUEST_CODE = 203;
     private static final int REQUEST_IMAGE_CAPTURE = 202;
     private static final int REQUEST_CAMERA_USE = 201;
     private static final int MIC_REQUEST_CODE = 200;
     private static final String TAG_FILENAME = "filename";
+    private final String TEXTBOX_KEY = "userText";
     private static String micFileName = null;
-    ImageButton micStart, cameraButton;
+    ImageButton micStart, cameraButton, textButton;
+    TextView userInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //text Button handler
+        textButton = (ImageButton) findViewById(R.id.textButton);
+        textButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent textboxIntent = new Intent(MainActivity.this, TextboxActivity.class);
+                MainActivity.this.startActivityForResult(textboxIntent, TEXTBOX_REQUEST_CODE);
+            }
+        });
+
+
+        //microphone button handler
         micStart = (ImageButton) findViewById(R.id.micStart);
         micStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +100,15 @@ public class MainActivity extends AppCompatActivity {
                     ImageView picture = (ImageView) findViewById(R.id.pictureImageView);
                     Log.i(TAG_MAINACTIVITY,"I got to the picture setting part!!! trying to put it now!");
                     picture.setImageBitmap(imageBitmap);
+                }else if(requestCode == TEXTBOX_REQUEST_CODE && resultCode == RESULT_OK){
+                    if(data != null && data.hasExtra(TEXTBOX_KEY)){
+                        userInput = (TextView) findViewById(R.id.userInput);
+                        userInput.setText(data.getExtras().getString(TEXTBOX_KEY));
+                    }
+
                 }
+
+
                 //catches the NullPointerException made by hasExtra method or getString method
             }catch (NullPointerException e){
                 e.printStackTrace();

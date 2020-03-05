@@ -19,4 +19,7 @@
     <string name="playButton">"This button activates the sound which was recorded in the AudioRecordTest Activity"</string>
     <string name="cameraButton">"This button activates the camera features - in an Activity (- soon to be fragment)"</string>
     <string name="pictureImageView">"This ImageView holds the current pictures taken by the user"</string>
+    <string name="textboxGreeting">"How do you feel?"</string>
+    <string name="finishedTextbox">"I am ready to move forward"</string>
+
 </resources>
