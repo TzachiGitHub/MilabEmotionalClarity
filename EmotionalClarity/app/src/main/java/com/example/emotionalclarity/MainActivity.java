@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent textboxIntent = new Intent(MainActivity.this, TextboxActivity.class);
+                if(userInput != null && userInput.getText() != null){
+                    textboxIntent.putExtra(TEXTBOX_KEY, userInput.getText().toString());
+                }
                 MainActivity.this.startActivityForResult(textboxIntent, TEXTBOX_REQUEST_CODE);
             }
         });
@@ -104,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     if(data != null && data.hasExtra(TEXTBOX_KEY)){
                         userInput = (TextView) findViewById(R.id.userInput);
                         userInput.setText(data.getExtras().getString(TEXTBOX_KEY));
+                        userInput.setMovementMethod(new ScrollingMovementMethod());
                     }
 
                 }

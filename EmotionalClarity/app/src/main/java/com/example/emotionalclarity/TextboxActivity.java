@@ -29,6 +29,11 @@ public class TextboxActivity extends AppCompatActivity {
 
         textbox = (EditText) findViewById(R.id.textbox);
 
+        if(getIntent().getExtras() != null){
+            String input = getIntent().getExtras().getString(TEXTBOX_KEY);
+            textbox.setText(input);
+        }
+
         textboxGreeting = (TextView) findViewById(R.id.textboxGreeting);
 
         finishedTextbox = (Button) findViewById(R.id.finishedTextbox);
