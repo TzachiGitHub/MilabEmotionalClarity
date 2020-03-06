@@ -1,6 +1,7 @@
 package com.example.emotionalclarity;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -177,7 +178,9 @@ public class AudioRecordTest extends AppCompatActivity {
 
             ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 
-            LinearLayout ll = new LinearLayout(this);
+//            LinearLayout ll = new LinearLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+          LinearLayout ll = new LinearLayout(this);
+          ll.setLayoutParams(new LinearLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT));
             recordButton = new RecordButton(this);
             ll.addView(recordButton,
                     new LinearLayout.LayoutParams(

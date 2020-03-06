@@ -22,5 +22,9 @@
     <string name="textboxGreeting">"How do you feel?"</string>
     <string name="finishedTextbox">"I am ready to move forward"</string>
     <string name="I_feel">"I feel..."</string>
+    <string name="feelings">שמח</string>
+    <string name="plus">+</string>
+    <string name="textButtonDesc">Activates the TextboxActivity</string>
+    <string name="title_activity_feelings">FeelingsActivity</string>
 
 </resources>

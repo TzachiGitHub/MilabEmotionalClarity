@@ -1,18 +1,23 @@
 package com.example.emotionalclarity;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +28,7 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG_MAINACTIVITY = "MainActivity";
+    private static final int ADDING_FEELINGS_REQUEST_CODE = 204;
     private static final int TEXTBOX_REQUEST_CODE = 203;
     private static final int REQUEST_IMAGE_CAPTURE = 202;
     private static final int REQUEST_CAMERA_USE = 201;
@@ -33,10 +39,31 @@ public class MainActivity extends AppCompatActivity {
     ImageButton micStart, cameraButton, textButton;
     TextView userInput;
 
+    //addFeelings button variable
+    Button addFeelings;
+
+    //feeling buttons resources
+    int[] tags;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //feeling buttons tags array for the onClick method
+        tags = new int[6];
+
+
+        //add feelings button handler
+        addFeelings = (Button) findViewById(R.id.addFeelings);
+        addFeelings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addingFeelingsIntent = new Intent(MainActivity.this, FeelingsActivity.class);
+                MainActivity.this.startActivityForResult(addingFeelingsIntent, ADDING_FEELINGS_REQUEST_CODE);
+            }
+        });
+
 
         //text Button handler
         textButton = (ImageButton) findViewById(R.id.textButton);
@@ -44,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent textboxIntent = new Intent(MainActivity.this, TextboxActivity.class);
+                //checks to see if the user has previous input
                 if(userInput != null && userInput.getText() != null){
                     textboxIntent.putExtra(TEXTBOX_KEY, userInput.getText().toString());
                 }
@@ -52,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //microphone button handler
+        //microphone button handler - activates the AudioRecordTest
         micStart = (ImageButton) findViewById(R.id.micStart);
         micStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
                         userInput.setText(data.getExtras().getString(TEXTBOX_KEY));
                         userInput.setMovementMethod(new ScrollingMovementMethod());
                     }
-
                 }
 
 
@@ -136,4 +163,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void feelingsListener(View v){
+        //getting the backgroundShape object to change the button's colour
+        GradientDrawable backgroundShape = (GradientDrawable) v.getBackground();
+
+        int position = Integer.parseInt(v.getTag().toString());
+        //position == 0 means it hasn't been clicked yet - so change the colour
+        if(tags[position] == 0){
+            tags[position] = 1;
+            backgroundShape.setColor(Color.BLUE);
+        }else{
+            tags[position] = 0;
+            backgroundShape.setColor(Color.WHITE);
+        }
+
+
+
+        //add to the array of chosen feelings
+    }
 }
