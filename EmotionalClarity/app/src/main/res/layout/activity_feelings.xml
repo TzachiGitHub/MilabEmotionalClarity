@@ -7,8 +7,12 @@
     tools:context=".FeelingsActivity">
 
 
-
-
-
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="שיהיה בהצלחה לעשות פה RecyclerView \n סומך עליך ירון!\n תתחיל משמות של רגשות ותמשיך להגדרות וכו"
+        android:textAlignment="center"
+        android:textSize="40dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

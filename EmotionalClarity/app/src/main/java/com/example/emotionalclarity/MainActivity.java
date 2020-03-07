@@ -33,14 +33,22 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 202;
     private static final int REQUEST_CAMERA_USE = 201;
     private static final int MIC_REQUEST_CODE = 200;
+
+    //keys for sending the user's data to the final screen
+    private static final String USER_AUDIO_KEY = "micFileName";
+    private static final String USER_TEXT_INPUT_KEY = "userInput";
+    private static final String USER_IMAGE_KEY = "imageBitmap";
+
     private static final String TAG_FILENAME = "filename";
     private final String TEXTBOX_KEY = "userText";
     private static String micFileName = null;
-    ImageButton micStart, cameraButton, textButton;
-    TextView userInput;
+    private ImageButton micStart, cameraButton, textButton, playButton;
+    private TextView userInput;
+    private Bitmap imageBitmap;
 
-    //addFeelings button variable
-    Button addFeelings;
+    //addFeelings - array intent button
+    //nextButton - next screen button
+    private Button addFeelings, nextButton;
 
     //feeling buttons resources
     int[] tags;
@@ -108,29 +116,47 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        nextButton = (Button) findViewById(R.id.nextButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //micFileName (String), userInput(TextView) (textbox),imageBitmap(Bitmap)
+                Intent finalScreenIntent = new Intent(v.getContext(), finalScreen.class);
+                Bundle finalBundle = new Bundle();
+                Log.i(TAG_MAINACTIVITY, micFileName + "!!");
+                if(micFileName != null)
+                    finalBundle.putString(USER_AUDIO_KEY, micFileName);
+                if(userInput != null)
+//              if(userInput != null && userInput.getText() != null)
+                    finalBundle.putString(USER_TEXT_INPUT_KEY, userInput.getText().toString());
+                if(imageBitmap != null)
+                    finalBundle.putParcelable(USER_IMAGE_KEY, imageBitmap);
+                finalScreenIntent.putExtras(finalBundle);
+                MainActivity.this.startActivity(finalScreenIntent);
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
             try{
-                //handler for the Audio-Input Activity (Microphone)
+                //Audio-Input-return-Activity handler (microphone)
                 if(requestCode == MIC_REQUEST_CODE && resultCode == RESULT_OK){
                     // get the microphone input from the activity and display on screen
                     if(data != null && data.hasExtra(TAG_FILENAME)){
                         micFileName = data.getExtras().getString(TAG_FILENAME);
-                        ImageButton playButton = (ImageButton) findViewById(R.id.playButton);
+                        playButton = (ImageButton) findViewById(R.id.playButton);
                         playButton.setVisibility(View.VISIBLE);
                     }
 
-                    //handler for the Camera-Activity
+                    //Camera-return-Activity handler
                 } else if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
-                    Toast.makeText(this, "onActivityResult was activated - into the else - as in camera activity was initiated", Toast.LENGTH_LONG).show();
                     Log.i(TAG_MAINACTIVITY, "Camera Activity returned!");
                     Bundle extras = data.getExtras();
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    imageBitmap = (Bitmap) extras.get("data");
                     ImageView picture = (ImageView) findViewById(R.id.pictureImageView);
-                    Log.i(TAG_MAINACTIVITY,"I got to the picture setting part!!! trying to put it now!");
                     picture.setImageBitmap(imageBitmap);
                 }else if(requestCode == TEXTBOX_REQUEST_CODE && resultCode == RESULT_OK){
                     if(data != null && data.hasExtra(TEXTBOX_KEY)){
@@ -160,7 +186,6 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MainActivity", "Mic activity result failed");
             e.printStackTrace();
         }
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

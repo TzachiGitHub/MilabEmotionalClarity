@@ -20,10 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".finalScreen"></activity>
         <activity
             android:name=".FeelingsActivity"
             android:label="@string/title_activity_feelings"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TextboxActivity" />
         <activity
             android:name=".AudioRecordTest"
