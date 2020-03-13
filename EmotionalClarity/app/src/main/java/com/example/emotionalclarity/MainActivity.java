@@ -23,6 +23,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton micStart, cameraButton, textButton, playButton;
     private TextView userInput;
     private Bitmap imageBitmap;
+
+    //volley and firebase related variables
+    private RequestQueue _queue;
+    private static String token = "";
+    private static final String username = "user";
+    private static final String REQUEST_URL = "http://192.168.43.154:8080/"; //To use in IDC
 
     //addFeelings - array intent button
     //nextButton - next screen button
@@ -136,42 +155,73 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(finalScreenIntent);
             }
         });
+
+        // Send token to server
+        _queue = Volley.newRequestQueue(this);
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                token = instanceIdResult.getToken();
+                JSONObject requestObject = new JSONObject();
+                try {
+                    requestObject.put("token", token);
+                }
+                catch (JSONException e) {
+                    Log.e(TAG_MAINACTIVITY, token);
+                }
+                JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, REQUEST_URL + username + "/token",
+                        requestObject, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i(TAG_MAINACTIVITY, "Token saved successfully");
+                    }
+                },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e(TAG_MAINACTIVITY, "Failed to save token - " + error);
+                            }
+                        });
+
+                _queue.add(req);
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            try{
-                //Audio-Input-return-Activity handler (microphone)
-                if(requestCode == MIC_REQUEST_CODE && resultCode == RESULT_OK){
-                    // get the microphone input from the activity and display on screen
-                    if(data != null && data.hasExtra(TAG_FILENAME)){
-                        micFileName = data.getExtras().getString(TAG_FILENAME);
-                        playButton = (ImageButton) findViewById(R.id.playButton);
-                        playButton.setVisibility(View.VISIBLE);
-                    }
-
-                    //Camera-return-Activity handler
-                } else if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
-                    Log.i(TAG_MAINACTIVITY, "Camera Activity returned!");
-                    Bundle extras = data.getExtras();
-                    imageBitmap = (Bitmap) extras.get("data");
-                    ImageView picture = (ImageView) findViewById(R.id.pictureImageView);
-                    picture.setImageBitmap(imageBitmap);
-                }else if(requestCode == TEXTBOX_REQUEST_CODE && resultCode == RESULT_OK){
-                    if(data != null && data.hasExtra(TEXTBOX_KEY)){
-                        userInput = (TextView) findViewById(R.id.userInput);
-                        userInput.setText(data.getExtras().getString(TEXTBOX_KEY));
-                        userInput.setMovementMethod(new ScrollingMovementMethod());
-                    }
+        try{
+            //Audio-Input-return-Activity handler (microphone)
+            if(requestCode == MIC_REQUEST_CODE && resultCode == RESULT_OK){
+                // get the microphone input from the activity and display on screen
+                if(data != null && data.hasExtra(TAG_FILENAME)){
+                    micFileName = data.getExtras().getString(TAG_FILENAME);
+                    playButton = (ImageButton) findViewById(R.id.playButton);
+                    playButton.setVisibility(View.VISIBLE);
                 }
 
-
-                //catches the NullPointerException made by hasExtra method or getString method
-            }catch (NullPointerException e){
-                e.printStackTrace();
-                Log.e(TAG_MAINACTIVITY, "Method hasExtra or getString failed - onActivityResult");
+                //Camera-return-Activity handler
+            } else if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+                Log.i(TAG_MAINACTIVITY, "Camera Activity returned!");
+                Bundle extras = data.getExtras();
+                imageBitmap = (Bitmap) extras.get("data");
+                ImageView picture = (ImageView) findViewById(R.id.pictureImageView);
+                picture.setImageBitmap(imageBitmap);
+            }else if(requestCode == TEXTBOX_REQUEST_CODE && resultCode == RESULT_OK){
+                if(data != null && data.hasExtra(TEXTBOX_KEY)){
+                    userInput = (TextView) findViewById(R.id.userInput);
+                    userInput.setText(data.getExtras().getString(TEXTBOX_KEY));
+                    userInput.setMovementMethod(new ScrollingMovementMethod());
+                }
             }
+
+
+            //catches the NullPointerException made by hasExtra method or getString method
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            Log.e(TAG_MAINACTIVITY, "Method hasExtra or getString failed - onActivityResult");
+        }
     }
 
 
