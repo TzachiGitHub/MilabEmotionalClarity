@@ -87,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent addingFeelingsIntent = new Intent(MainActivity.this, FeelingsActivity.class);
-                MainActivity.this.startActivityForResult(addingFeelingsIntent, ADDING_FEELINGS_REQUEST_CODE);
+                //MainActivity.this.startActivityForResult(addingFeelingsIntent, ADDING_FEELINGS_REQUEST_CODE);
+                startActivity(addingFeelingsIntent);
             }
         });
 

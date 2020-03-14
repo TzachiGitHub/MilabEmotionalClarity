@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "531072916045",
+    "firebase_url": "https://emotional-clarity-9ced0.firebaseio.com",
+    "project_id": "emotional-clarity-9ced0",
+    "storage_bucket": "emotional-clarity-9ced0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531072916045:android:cb01dd18a3e321481ada04",
+        "android_client_info": {
+          "package_name": "com.example.emotionalclarity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531072916045-d56taa4f9p3iop14f6jmv7lttbirehp1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBISh2qtuvuHDYs4riD0IwMAEsv2C7k7eI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531072916045-d56taa4f9p3iop14f6jmv7lttbirehp1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
