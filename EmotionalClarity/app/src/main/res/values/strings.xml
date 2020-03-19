@@ -26,5 +26,6 @@
     <string name="plus">+</string>
     <string name="textButtonDesc">Activates the TextboxActivity</string>
     <string name="title_activity_feelings">FeelingsActivity</string>
-
+    <string name="title_activity_emotion_info">EmotionInfoActivity</string>
+    <string name="back_button">Back</string>
 </resources>
