@@ -1,37 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layoutDirection="ltr"
     android:orientation="vertical">
 
+    <CheckBox
+        android:id="@+id/checkEmotion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:text="" />
+
     <TextView
         android:id="@+id/emotionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="20sp"
+        android:layout_toEndOf="@+id/checkEmotion"
+        android:layout_centerVertical="true"
         android:textSize="36sp"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:textColor="#000000" />
 
     <Button
         android:id="@+id/infoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="20sp"
-        android:paddingTop="20sp"
-        android:textSize="10sp"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:paddingTop="12sp"
+        android:paddingEnd="12sp"
         android:text="i"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"/>
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        tools:ignore="RtlSymmetry" />
+
+
 </RelativeLayout>

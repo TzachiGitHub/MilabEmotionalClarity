@@ -37,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -76,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent returnIntent = getIntent();
+        ArrayList<Emotion> emotionsToAdd = returnIntent
+                .getParcelableArrayListExtra("EMOTIONS_TO_ADD");
+        for(Emotion e : emotionsToAdd){
+            Log.i(TAG_MAINACTIVITY, e.toString());
+        }
 
         //feeling buttons tags array for the onClick method
         tags = new int[6];
