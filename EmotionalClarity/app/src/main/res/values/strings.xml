@@ -22,10 +22,19 @@
     <string name="textboxGreeting">"How do you feel?"</string>
     <string name="finishedTextbox">"I am ready to move forward"</string>
     <string name="I_feel">"I feel..."</string>
-    <string name="feelings">שמח</string>
     <string name="plus">+</string>
     <string name="textButtonDesc">Activates the TextboxActivity</string>
     <string name="title_activity_feelings">FeelingsActivity</string>
     <string name="title_activity_emotion_info">EmotionInfoActivity</string>
-    <string name="back_button">Back</string>
+    <string name="back_button">Back</string>    
+
+    <string-array name="feelingsArray">
+        <item>שמח</item>
+        <item>עצוב</item>
+        <item>כועס</item>
+        <item>מבולבל</item>
+        <item>מצוברח</item>
+        <item>מתוסכל</item>
+    </string-array>
+
 </resources>
