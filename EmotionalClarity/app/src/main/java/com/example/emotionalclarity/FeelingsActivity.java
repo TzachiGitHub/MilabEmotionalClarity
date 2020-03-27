@@ -30,7 +30,7 @@ public class FeelingsActivity extends AppCompatActivity {
         emotionList.add(new  Emotion("Happiness", "Clap along if you feel like a room without a roof"));
         emotionList.add(new Emotion("Love", "I love u Tzachi"));
 
-        Intent intent = getIntent();
+        //Intent intent = getIntent();
         recyclerView.setAdapter(new EmotionsAdapter(emotionList));
         RecyclerView.ItemDecoration itemDecoration = new
                 DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
