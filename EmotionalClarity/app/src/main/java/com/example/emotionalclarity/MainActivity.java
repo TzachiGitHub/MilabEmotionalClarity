@@ -3,7 +3,10 @@ package com.example.emotionalclarity;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
@@ -20,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,30 +68,65 @@ public class MainActivity extends AppCompatActivity {
     private RequestQueue _queue;
     private static String token = "";
     private static final String username = "user";
-    private static final String REQUEST_URL = "http://192.168.43.154:8080/"; //To use in IDC
+    //private static final String REQUEST_URL = "http://192.168.43.154:8080/"; //To use in IDC
+    private static final String REQUEST_URL = "http://192.168.1.193"; // My home
 
     //addFeelings - array intent button
     //nextButton - next screen button
     private Button addFeelings, nextButton;
 
     //feeling buttons resources
-    int[] tags;
+    ArrayList<Integer> tags;
+    ArrayList<ButtonPositioning> buttonPositionings;
+    int lastFeeling = 5;
+
+    ArrayList<Integer> images;
+    int lastImage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent returnIntent = getIntent();
-        ArrayList<Emotion> emotionsToAdd = returnIntent
-                .getParcelableArrayListExtra("EMOTIONS_TO_ADD");
-        for(Emotion e : emotionsToAdd){
-            Log.i(TAG_MAINACTIVITY, e.toString());
+        //feeling buttons tags array for the onClick method
+        tags = new ArrayList<>();
+        buttonPositionings = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            tags.add(0);
+            buttonPositionings.add(new ButtonPositioning(316, 88));
         }
 
-        //feeling buttons tags array for the onClick method
-        tags = new int[6];
-
+        // If returning from FeelingsActivity, add new chosen emotions
+        try {
+            Intent returnIntent = getIntent();
+            ArrayList<Emotion> emotionsToAdd = returnIntent
+                    .getParcelableArrayListExtra("EMOTIONS_TO_ADD");
+            ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.mainActivityLayout);
+            for (Emotion e : emotionsToAdd) {
+                Log.i(TAG_MAINACTIVITY, e.toString());
+                Button newEmotion = new Button(this);
+                newEmotion.setLayoutParams(new ConstraintLayout.
+                        LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT));
+                newEmotion.setTag(++lastFeeling);
+                newEmotion.setText(e.name);
+                newEmotion.setTextSize(10);
+                newEmotion.setAllCaps(false);
+                newEmotion.setBackground(ContextCompat.
+                        getDrawable(this, R.drawable.btn_background));
+                newEmotion.setWidth(60);
+                newEmotion.setHeight(60);
+                newEmotion.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    public void onClick(View v) {
+                        feelingsListener(v);
+                    }
+                });
+                layout.addView(newEmotion);
+                tags.add(0);
+            }
+        } catch (NullPointerException e){}
 
         //add feelings button handler
         addFeelings = (Button) findViewById(R.id.addFeelings);
@@ -95,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent addingFeelingsIntent = new Intent(MainActivity.this, FeelingsActivity.class);
-                //MainActivity.this.startActivityForResult(addingFeelingsIntent, ADDING_FEELINGS_REQUEST_CODE);
                 startActivity(addingFeelingsIntent);
             }
         });
@@ -211,14 +249,45 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //Camera-return-Activity handler
-            } else if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+            } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+                ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.mainActivityLayout);
+                LinearLayout linearLayout = (LinearLayout)findViewById(R.id.imagesLayout);
+
                 Log.i(TAG_MAINACTIVITY, "Camera Activity returned!");
                 Bundle extras = data.getExtras();
+
                 imageBitmap = (Bitmap) extras.get("data");
-                ImageView picture = (ImageView) findViewById(R.id.pictureImageView);
-                picture.setImageBitmap(imageBitmap);
-            }else if(requestCode == TEXTBOX_REQUEST_CODE && resultCode == RESULT_OK){
-                if(data != null && data.hasExtra(TEXTBOX_KEY)){
+                ImageView pic = (ImageView) new ImageView(this);
+                pic.setId(lastImage);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams
+                        (LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.MATCH_PARENT);
+                lp.setMarginStart(10);
+                lp.setMarginEnd(10);
+                pic.setLayoutParams(lp);
+                pic.setImageBitmap(imageBitmap);
+                linearLayout.addView(pic);
+                images.add(lastImage++);
+
+                /*
+                ConstraintSet constraintSet = new ConstraintSet();
+                constraintSet.clone(layout);
+                constraintSet.connect(pic.getId(), ConstraintSet.BOTTOM,
+                        R.id.userInput, ConstraintSet.TOP);
+                if (lastImage == 1) {
+                    constraintSet.connect(pic.getId(), ConstraintSet.START,
+                            R.id.mainActivityLayout, ConstraintSet.START);
+                } else {
+                    constraintSet.connect(pic.getId(), ConstraintSet.START,
+                            lastImage - 1, ConstraintSet.END);
+                }
+                constraintSet.applyTo(layout);
+
+                 */
+                //ImageView picture = (ImageView) findViewById(R.id.pictureImageView);
+                //picture.setImageBitmap(imageBitmap);
+            } else if (requestCode == TEXTBOX_REQUEST_CODE && resultCode == RESULT_OK){
+                if (data != null && data.hasExtra(TEXTBOX_KEY)) {
                     userInput = (TextView) findViewById(R.id.userInput);
                     userInput.setText(data.getExtras().getString(TEXTBOX_KEY));
                     userInput.setMovementMethod(new ScrollingMovementMethod());
@@ -254,11 +323,11 @@ public class MainActivity extends AppCompatActivity {
 
         int position = Integer.parseInt(v.getTag().toString());
         //position == 0 means it hasn't been clicked yet - so change the colour
-        if(tags[position] == 0){
-            tags[position] = 1;
+        if(tags.get(position) == 0){
+            tags.set(position, 1);
             backgroundShape.setColor(Color.BLUE);
-        }else{
-            tags[position] = 0;
+        } else {
+            tags.set(position, 0);
             backgroundShape.setColor(Color.WHITE);
         }
 

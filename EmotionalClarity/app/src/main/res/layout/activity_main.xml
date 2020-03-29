@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainActivityLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fadeScrollbars="false"
@@ -13,10 +14,10 @@
         android:layout_height="62dp"
         android:layout_marginStart="148dp"
         android:layout_marginBottom="16dp"
+        android:contentDescription="trash icon for deleting feelings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/trashicon"
-        android:contentDescription="trash icon for deleting feelings"/>
+        app:srcCompat="@drawable/trashicon" />
 
     <ImageView
         android:id="@+id/calenderImageView"
@@ -24,62 +25,57 @@
         android:layout_height="62dp"
         android:layout_marginEnd="6dp"
         android:layout_marginBottom="16dp"
+        android:contentDescription="calender button - for looking up old stories"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/refreshImageView"
-        app:srcCompat="@drawable/calendericon"
-        android:contentDescription="calender button - for looking up old stories"/>
+        app:srcCompat="@drawable/calendericon" />
 
     <Button
         android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="168dp"
-        android:layout_marginBottom="432dp"
         android:text="@string/start"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.519" />
 
     <TextView
         android:id="@+id/userInput"
-        android:layout_width="369dp"
-        android:layout_height="167dp"
-        android:layout_marginStart="123dp"
+        android:layout_width="376dp"
+        android:layout_height="64dp"
         android:layout_marginTop="260dp"
-        android:layout_marginEnd="98dp"
         android:fadeScrollbars="false"
         android:scrollbarAlwaysDrawHorizontalTrack="false"
         android:scrollbarAlwaysDrawVerticalTrack="false"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.519"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.684" />
+        app:layout_constraintVertical_bias="0.771" />
 
     <ImageButton
         android:id="@+id/micStart"
         android:layout_width="57dp"
         android:layout_height="49dp"
-        android:layout_marginStart="191dp"
-        android:layout_marginTop="195dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="80dp"
         android:contentDescription="@string/micButton"
-        app:layout_constraintBottom_toTopOf="@+id/start"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cameraButton"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.447"
+        app:layout_constraintStart_toEndOf="@+id/textButton"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.547"
+        app:layout_constraintVertical_bias="0.447"
         app:srcCompat="@drawable/microphonebutton" />
 
     <ImageButton
         android:id="@+id/playButton"
-        android:layout_width="68dp"
-        android:layout_height="48dp"
+        android:layout_width="5dp"
+        android:layout_height="4dp"
         android:layout_marginStart="411dp"
         android:layout_marginEnd="133dp"
-        android:layout_marginBottom="619dp"
         android:contentDescription="@string/playButton"
         android:onClick="micOutputListener"
         android:scaleType="fitXY"
@@ -92,45 +88,29 @@
 
     <ImageButton
         android:id="@+id/cameraButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="230dp"
-        android:layout_marginEnd="69dp"
-        android:layout_marginBottom="107dp"
+        android:layout_width="58dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="76dp"
         android:contentDescription="@string/cameraButton"
-        app:layout_constraintBottom_toTopOf="@+id/userInput"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/micStart"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.12"
+        app:layout_constraintVertical_bias="0.45"
         app:srcCompat="@drawable/camerabutton" />
-
-    <ImageView
-        android:id="@+id/pictureImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="17dp"
-        android:contentDescription="@string/pictureImageView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
 
     <ImageButton
         android:id="@+id/textButton"
-        android:layout_width="70dp"
-        android:layout_height="56dp"
+        android:layout_width="64dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="76dp"
         android:contentDescription="@string/textButtonDesc"
         android:fitsSystemWindows="false"
         android:focusableInTouchMode="false"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.228"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.324"
+        app:layout_constraintVertical_bias="0.445"
         app:srcCompat="@drawable/textboxbutton" />
 
     <Button
@@ -138,97 +118,121 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="316dp"
         android:background="@drawable/btn_background"
         android:onClick="feelingsListener"
         android:tag="0"
-        android:text="@string/feelings"
+        android:text="@string/Relieved"
+        android:textAllCaps="false"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.994"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.54" />
 
     <Button
         android:id="@+id/circleFeeling1"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="396dp"
         android:background="@drawable/btn_background"
         android:onClick="feelingsListener"
         android:tag="1"
-        android:text="@string/feelings"
+        android:text="@string/Confused"
+        android:textAllCaps="false"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.131" />
 
     <Button
         android:id="@+id/circleFeeling2"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="360dp"
         android:background="@drawable/btn_background"
         android:onClick="feelingsListener"
         android:tag="2"
-        android:text="@string/feelings"
+        android:text="@string/Hateful"
+        android:textAllCaps="false"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.962"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
 
     <Button
         android:id="@+id/circleFeeling3"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="144dp"
-        android:layout_marginEnd="48dp"
         android:background="@drawable/btn_background"
         android:onClick="feelingsListener"
         android:tag="3"
-        android:text="@string/feelings"
+        android:text="@string/Disappointed"
+        android:textAllCaps="false"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.287" />
 
     <Button
         android:id="@+id/circleFeeling4"
         android:layout_width="59dp"
         android:layout_height="52dp"
         android:layout_centerInParent="true"
-        android:layout_marginEnd="108dp"
-        android:layout_marginBottom="360dp"
         android:background="@drawable/btn_background"
         android:onClick="feelingsListener"
         android:tag="4"
-        android:text="@string/feelings"
+        android:text="@string/Thrilled"
+        android:textAllCaps="false"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.284" />
 
     <Button
         android:id="@+id/circleFeeling5"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:layout_marginStart="108dp"
-        android:layout_marginBottom="516dp"
         android:background="@drawable/btn_background"
         android:onClick="feelingsListener"
         android:tag="5"
-        android:text="@string/feelings"
+        android:text="@string/Stressed"
+        android:textAllCaps="false"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.159" />
 
     <Button
         android:id="@+id/addFeelings"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="352dp"
-        android:layout_marginEnd="180dp"
         android:background="@drawable/btn_background"
         android:text="@string/plus"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start" />
 
     <ImageView
         android:id="@+id/refreshImageView"
@@ -236,10 +240,10 @@
         android:layout_height="62dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:contentDescription="refresh button - restarts every value"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/refreshicon"
-        android:contentDescription="refresh button - restarts every value"/>
+        app:srcCompat="@drawable/refreshicon" />
 
     <Button
         android:id="@+id/nextButton"
@@ -250,6 +254,17 @@
         android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/imagesLayout"
+        android:layout_width="372dp"
+        android:layout_height="68dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/userInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addFeelings"
+        app:layout_constraintVertical_bias="0.697"></LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

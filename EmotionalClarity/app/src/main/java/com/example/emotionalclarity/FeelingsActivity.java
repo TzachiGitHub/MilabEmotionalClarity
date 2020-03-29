@@ -26,10 +26,10 @@ public class FeelingsActivity extends AppCompatActivity {
         final RecyclerView recyclerView = (RecyclerView)findViewById(R.id.EmotionList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<Emotion> emotionList = new ArrayList<Emotion>();
-        emotionList.add(new Emotion("Fear", "I AM VERY SCARED"));
-        emotionList.add(new Emotion("Sadness", "BOO HOO HOO"));
-        emotionList.add(new  Emotion("Happiness", "Clap along if you feel like a room without a roof"));
-        emotionList.add(new Emotion("Love", "I love u Tzachi"));
+        emotionList.add(new Emotion("Afraid", "I AM VERY SCARED"));
+        emotionList.add(new Emotion("Sad", "BOO HOO HOO"));
+        emotionList.add(new  Emotion("Happy", "Clap along if you feel like a room without a roof"));
+        emotionList.add(new Emotion("Loved", "I love u Tzachi"));
 
         // Divide recyclerview to cells
         recyclerView.setAdapter(new EmotionsAdapter(emotionList));
