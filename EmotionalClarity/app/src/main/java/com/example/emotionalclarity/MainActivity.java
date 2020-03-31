@@ -4,7 +4,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import androidx.constraintlayout.widget.ConstraintSet;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -19,7 +21,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -46,6 +50,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG_MAINACTIVITY = "MainActivity";
+    private static final String TAG_CHOSEN_FEELINGS = "CHOSEN_FEELINGS";
     private static final int ADDING_FEELINGS_REQUEST_CODE = 204;
     private static final int TEXTBOX_REQUEST_CODE = 203;
     private static final int REQUEST_IMAGE_CAPTURE = 202;
@@ -61,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private final String TEXTBOX_KEY = "userText";
     private static String micFileName = null;
     private ImageButton micStart, cameraButton, textButton, playButton;
-    private TextView userInput;
+    private String userInputString;
     private Bitmap imageBitmap;
 
     //volley and firebase related variables
@@ -76,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private Button addFeelings, nextButton;
 
     //feeling buttons resources
+
     ArrayList<Integer> tags;
     ArrayList<ButtonPositioning> buttonPositionings;
     int lastFeeling = 5;
@@ -83,18 +89,64 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Integer> images;
     int lastImage = 0;
 
+    int[] feelingTags;
+    int numFeelings;
+
+    //drag button setup variables
+    private ViewGroup rootLayout;
+    private int _xDelta;
+    private int _yDelta;
+    Button dragBtn;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    //   TODO - implement at the end of the app - not a must
+    ////  dragButton onCreate setup
+    //    rootLayout = (ViewGroup) findViewById(R.id.view_root);
+    //    dragBtn = findViewById(R.id.circleFeeling5);
+    ////  ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(150,150);
+    ////  dragBtn.setLayoutParams(layoutParams);
+    //    dragBtn.setOnTouchListener(new MoveTouchListener());
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+/*
+        //feeling buttons 
+  array for the onClick method
 
-        //feeling buttons tags array for the onClick method
         tags = new ArrayList<>();
         buttonPositionings = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             tags.add(0);
             buttonPositionings.add(new ButtonPositioning(316, 88));
         }
+        */
+
+        //to see if they were clicked or not
+        //TODO - more setup required
+
+        //currently arbitrary chose 6 feelings to be displayed
+        numFeelings = 6;
+        feelingTags = new int[numFeelings];
+
+        //getting the list of feelings from the hardcoded values
+        String[] feelingsNames = getResources().getStringArray(R.array.feelingsArray);
+
+        Button[] chosenFeelings = new Button[feelingTags.length];
+        chosenFeelings[0] = findViewById(R.id.circleFeeling);
+        chosenFeelings[1] = findViewById(R.id.circleFeeling1);
+        chosenFeelings[2] = findViewById(R.id.circleFeeling2);
+        chosenFeelings[3] = findViewById(R.id.circleFeeling3);
+        chosenFeelings[4] = findViewById(R.id.circleFeeling4);
+        chosenFeelings[5] = findViewById(R.id.circleFeeling5);
+        for(int i = 0; i < numFeelings; i++){
+            chosenFeelings[i].setText(feelingsNames[i]);
+        }
+
+
 
         // If returning from FeelingsActivity, add new chosen emotions
         try {
@@ -146,8 +198,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent textboxIntent = new Intent(MainActivity.this, TextboxActivity.class);
                 //checks to see if the user has previous input
-                if(userInput != null && userInput.getText() != null){
-                    textboxIntent.putExtra(TEXTBOX_KEY, userInput.getText().toString());
+                if (userInputString!= null) {
+                    textboxIntent.putExtra(TEXTBOX_KEY, userInputString);
                 }
                 MainActivity.this.startActivityForResult(textboxIntent, TEXTBOX_REQUEST_CODE);
             }
@@ -187,17 +239,19 @@ public class MainActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //micFileName (String), userInput(TextView) (textbox),imageBitmap(Bitmap)
                 Intent finalScreenIntent = new Intent(v.getContext(), finalScreen.class);
                 Bundle finalBundle = new Bundle();
                 Log.i(TAG_MAINACTIVITY, micFileName + "!!");
                 if(micFileName != null)
                     finalBundle.putString(USER_AUDIO_KEY, micFileName);
-                if(userInput != null)
-//              if(userInput != null && userInput.getText() != null)
-                    finalBundle.putString(USER_TEXT_INPUT_KEY, userInput.getText().toString());
+                if(userInputString != null)
+                    finalBundle.putString(USER_TEXT_INPUT_KEY, userInputString);
                 if(imageBitmap != null)
                     finalBundle.putParcelable(USER_IMAGE_KEY, imageBitmap);
+
+                //sending the array that indicates which feelings were chosen
+                finalBundle.putIntArray(TAG_CHOSEN_FEELINGS, feelingTags);
+
                 finalScreenIntent.putExtras(finalBundle);
                 MainActivity.this.startActivity(finalScreenIntent);
             }
@@ -238,15 +292,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        try{
-            //Audio-Input-return-Activity handler (microphone)
-            if(requestCode == MIC_REQUEST_CODE && resultCode == RESULT_OK){
-                // get the microphone input from the activity and display on screen
-                if(data != null && data.hasExtra(TAG_FILENAME)){
-                    micFileName = data.getExtras().getString(TAG_FILENAME);
-                    playButton = (ImageButton) findViewById(R.id.playButton);
-                    playButton.setVisibility(View.VISIBLE);
-                }
+            try{
+                //Audio-Input-return-Activity handler (microphone)
+                if(requestCode == MIC_REQUEST_CODE && resultCode == RESULT_OK){
+                    // get the microphone input from the activity and display on screen
+                    if(data != null && data.hasExtra(TAG_FILENAME)){
+                        micFileName = data.getExtras().getString(TAG_FILENAME);
+
 
                 //Camera-return-Activity handler
             } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -295,11 +347,23 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-            //catches the NullPointerException made by hasExtra method or getString method
-        }catch (NullPointerException e){
-            e.printStackTrace();
-            Log.e(TAG_MAINACTIVITY, "Method hasExtra or getString failed - onActivityResult");
-        }
+                    //Camera-return-Activity handler
+                } else if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+                    Log.i(TAG_MAINACTIVITY, "Camera Activity returned!");
+                    Bundle extras = data.getExtras();
+                    imageBitmap = (Bitmap) extras.get("data");
+
+                }else if(requestCode == TEXTBOX_REQUEST_CODE && resultCode == RESULT_OK){
+                    if(data != null && data.hasExtra(TEXTBOX_KEY)){
+                        userInputString = data.getExtras().getString(TEXTBOX_KEY);
+
+                    }
+                }
+                //catches the NullPointerException made by hasExtra method or getString method
+            }catch (NullPointerException e){
+                e.printStackTrace();
+                Log.e(TAG_MAINACTIVITY, "Method hasExtra or getString failed - onActivityResult");
+            }
     }
 
 
@@ -316,6 +380,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
+    //currently only changes the feelingsButton colur
+    //TODO - get the data of the buttons chosen to the final screen
+    //TODO - adding them to the database of chosen feelings
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void feelingsListener(View v){
         //getting the backgroundShape object to change the button's colour
@@ -335,4 +404,47 @@ public class MainActivity extends AppCompatActivity {
 
         //add to the array of chosen feelings
     }
+
+
+
+
+
+
+
+
+
+
+    // THIS IS A FUTURE ADD - MOVING DRAGGED FEELING BUTTONS
+    // NOT IMPLEMENTED CURRENTLY BECAUSE WE HAVE BIGGER THINGS TO WORRY ABOUT
+    //TODO - add functionality to the moving button feelings - MAYBE - as an added bonus  - it's hard and irrelevant
+    //drag and drop listener - for the feelings buttons
+//    private final class MoveTouchListener implements View.OnTouchListener{
+//        @Override
+//        public boolean onTouch(View view, MotionEvent event) {
+//            final int X = (int) event.getRawX();
+//            final int Y = (int) event.getRawY();
+//            ConstraintLayout.LayoutParams lParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
+//            switch (event.getAction() & MotionEvent.ACTION_MASK) {
+//                case MotionEvent.ACTION_DOWN:
+//                    _xDelta = X - lParams.leftMargin;
+//                    _yDelta = Y - lParams.topMargin;
+//                    break;
+//                case MotionEvent.ACTION_POINTER_DOWN:
+//                    break;
+//                case MotionEvent.ACTION_POINTER_UP:
+//                    break;
+//                case MotionEvent.ACTION_MOVE:
+//                    lParams.leftMargin = X - _xDelta;
+////                    layoutParams.topMargin = Y - _yDelta;
+////                    layoutParams.rightMargin = -250;
+//                    lParams.bottomMargin = _yDelta - Y ;
+//                    view.setLayoutParams(lParams);
+//                    break;
+//            }
+//            rootLayout.invalidate();;
+//            return true;
+//        }
+//    }
+
+
 }
