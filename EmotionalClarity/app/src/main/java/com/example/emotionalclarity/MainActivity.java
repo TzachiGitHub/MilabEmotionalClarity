@@ -1,33 +1,20 @@
 package com.example.emotionalclarity;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import androidx.constraintlayout.widget.ConstraintSet;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.media.MediaPlayer;
-import android.os.Build;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,24 +25,31 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Objects;
+import java.util.concurrent.Semaphore;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationHost {
 
     private static final String TAG_MAINACTIVITY = "MainActivity";
-    private static final String TAG_CHOSEN_FEELINGS = "CHOSEN_FEELINGS";
+    /*
     private static final int ADDING_FEELINGS_REQUEST_CODE = 204;
     private static final int TEXTBOX_REQUEST_CODE = 203;
     private static final int REQUEST_IMAGE_CAPTURE = 202;
     private static final int REQUEST_CAMERA_USE = 201;
     private static final int MIC_REQUEST_CODE = 200;
+
 
     //keys for sending the user's data to the final screen
     private static final String USER_AUDIO_KEY = "micFileName";
@@ -66,22 +60,17 @@ public class MainActivity extends AppCompatActivity {
     private final String TEXTBOX_KEY = "userText";
     private static String micFileName = null;
     private ImageButton micStart, cameraButton, textButton, playButton;
-    private String userInputString;
     private Bitmap imageBitmap;
+    */
+    private String userInputString;
 
     //volley and firebase related variables
     private RequestQueue _queue;
     private static String token = "";
-    private static final String username = "user";
-    //private static final String REQUEST_URL = "http://192.168.43.154:8080/"; //To use in IDC
-    private static final String REQUEST_URL = "http://192.168.1.193"; // My home
+    private static final String REQUEST_URL = "http://192.168.43.154:8080/"; //To use in IDC
+    //private static final String REQUEST_URL = "http://192.168.1.193:8080/"; // My home
 
-    //addFeelings - array intent button
-    //nextButton - next screen button
-    private Button addFeelings, nextButton;
-
-    //feeling buttons resources
-
+    /*
     ArrayList<Integer> tags;
     ArrayList<ButtonPositioning> buttonPositionings;
     int lastFeeling = 5;
@@ -97,172 +86,32 @@ public class MainActivity extends AppCompatActivity {
     private int _xDelta;
     private int _yDelta;
     Button dragBtn;
+    */
 
+    public User currentUser;
+
+    DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+    RelativeLayout loadingPanel;
+
+    @SuppressLint("SetTextI18n")
+    public void setNewUser(String newName, String newGender) {
+        currentUser = new User(newName, newGender);
+        db.child("users").child(token).setValue(currentUser);
+        updateHeadline(currentUser.getName());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    //   TODO - implement at the end of the app - not a must
-    ////  dragButton onCreate setup
-    //    rootLayout = (ViewGroup) findViewById(R.id.view_root);
-    //    dragBtn = findViewById(R.id.circleFeeling5);
-    ////  ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(150,150);
-    ////  dragBtn.setLayoutParams(layoutParams);
-    //    dragBtn.setOnTouchListener(new MoveTouchListener());
-
-
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-/*
-        //feeling buttons 
-  array for the onClick method
-
-        tags = new ArrayList<>();
-        buttonPositionings = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            tags.add(0);
-            buttonPositionings.add(new ButtonPositioning(316, 88));
-        }
-        */
-
-        //to see if they were clicked or not
-        //TODO - more setup required
-
-        //currently arbitrary chose 6 feelings to be displayed
-        numFeelings = 6;
-        feelingTags = new int[numFeelings];
-
-        //getting the list of feelings from the hardcoded values
-        String[] feelingsNames = getResources().getStringArray(R.array.feelingsArray);
-
-        Button[] chosenFeelings = new Button[feelingTags.length];
-        chosenFeelings[0] = findViewById(R.id.circleFeeling);
-        chosenFeelings[1] = findViewById(R.id.circleFeeling1);
-        chosenFeelings[2] = findViewById(R.id.circleFeeling2);
-        chosenFeelings[3] = findViewById(R.id.circleFeeling3);
-        chosenFeelings[4] = findViewById(R.id.circleFeeling4);
-        chosenFeelings[5] = findViewById(R.id.circleFeeling5);
-        for(int i = 0; i < numFeelings; i++){
-            chosenFeelings[i].setText(feelingsNames[i]);
-        }
-
-
-
-        // If returning from FeelingsActivity, add new chosen emotions
-        try {
-            Intent returnIntent = getIntent();
-            ArrayList<Emotion> emotionsToAdd = returnIntent
-                    .getParcelableArrayListExtra("EMOTIONS_TO_ADD");
-            ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.mainActivityLayout);
-            for (Emotion e : emotionsToAdd) {
-                Log.i(TAG_MAINACTIVITY, e.toString());
-                Button newEmotion = new Button(this);
-                newEmotion.setLayoutParams(new ConstraintLayout.
-                        LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                        ConstraintLayout.LayoutParams.WRAP_CONTENT));
-                newEmotion.setTag(++lastFeeling);
-                newEmotion.setText(e.name);
-                newEmotion.setTextSize(10);
-                newEmotion.setAllCaps(false);
-                newEmotion.setBackground(ContextCompat.
-                        getDrawable(this, R.drawable.btn_background));
-                newEmotion.setWidth(60);
-                newEmotion.setHeight(60);
-                newEmotion.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    public void onClick(View v) {
-                        feelingsListener(v);
-                    }
-                });
-                layout.addView(newEmotion);
-                tags.add(0);
-            }
-        } catch (NullPointerException e){}
-
-        //add feelings button handler
-        addFeelings = (Button) findViewById(R.id.addFeelings);
-        addFeelings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addingFeelingsIntent = new Intent(MainActivity.this, FeelingsActivity.class);
-                startActivity(addingFeelingsIntent);
-            }
-        });
-
-
-        //text Button handler
-        textButton = (ImageButton) findViewById(R.id.textButton);
-        textButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent textboxIntent = new Intent(MainActivity.this, TextboxActivity.class);
-                //checks to see if the user has previous input
-                if (userInputString!= null) {
-                    textboxIntent.putExtra(TEXTBOX_KEY, userInputString);
-                }
-                MainActivity.this.startActivityForResult(textboxIntent, TEXTBOX_REQUEST_CODE);
-            }
-        });
-
-
-        //microphone button handler - activates the AudioRecordTest
-        micStart = (ImageButton) findViewById(R.id.micStart);
-        micStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent micIntent = new Intent(MainActivity.this, AudioRecordTest.class);
-                MainActivity.this.startActivityForResult(micIntent, MIC_REQUEST_CODE);
-            }
-        });
-
-        //handler for the camera button - for personal pictures
-        cameraButton = (ImageButton) findViewById(R.id.cameraButton);
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //defining the required permissions for camera use
-                String[] premissionsToAsk = {Manifest.permission.CAMERA};
-                // asking for camera permission
-                ActivityCompat.requestPermissions(MainActivity.this, premissionsToAsk, REQUEST_CAMERA_USE);
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                } else {
-                    Log.e(TAG_MAINACTIVITY, "cameraButton onClick has Failed");
-                    Toast.makeText(MainActivity.this, "cameraButton onClick has Failed!!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        nextButton = (Button) findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent finalScreenIntent = new Intent(v.getContext(), finalScreen.class);
-                Bundle finalBundle = new Bundle();
-                Log.i(TAG_MAINACTIVITY, micFileName + "!!");
-                if(micFileName != null)
-                    finalBundle.putString(USER_AUDIO_KEY, micFileName);
-                if(userInputString != null)
-                    finalBundle.putString(USER_TEXT_INPUT_KEY, userInputString);
-                if(imageBitmap != null)
-                    finalBundle.putParcelable(USER_IMAGE_KEY, imageBitmap);
-
-                //sending the array that indicates which feelings were chosen
-                finalBundle.putIntArray(TAG_CHOSEN_FEELINGS, feelingTags);
-
-                finalScreenIntent.putExtras(finalBundle);
-                MainActivity.this.startActivity(finalScreenIntent);
-            }
-        });
-
         // Send token to server
         _queue = Volley.newRequestQueue(this);
+        AsyncOp getToken = new AsyncOp();
+        getToken.execute();
+        /*
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 token = instanceIdResult.getToken();
+                getUser(token);
                 JSONObject requestObject = new JSONObject();
                 try {
                     requestObject.put("token", token);
@@ -270,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 catch (JSONException e) {
                     Log.e(TAG_MAINACTIVITY, token);
                 }
-                JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, REQUEST_URL + username + "/token",
+                JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, REQUEST_URL + "token",
                         requestObject, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -286,81 +135,90 @@ public class MainActivity extends AppCompatActivity {
 
                 _queue.add(req);
             }
+        }); */
+
+        setTheme(R.style.AppTheme);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        loadingPanel = (RelativeLayout) findViewById(R.id.loadingPanel);
+        loadingPanel.setVisibility(View.GONE);
+        final TextInputEditText userInput = (TextInputEditText) findViewById(R.id.userInput);
+        Button nextButton = (Button) findViewById(R.id.nextButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userInputString = Objects.requireNonNull(userInput.getText()).toString();
+                // Hide keyboard:
+                try {
+                    InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mgr.hideSoftInputFromWindow(userInput.getWindowToken(), 0);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+
+                if (userInputString.length() > 0) {
+                    loadingPanel.setVisibility(View.VISIBLE);
+                    sendAnalysisRequest(userInputString);
+                } else { // If no input was given:
+                    Toast.makeText(v.getContext(), "Please share some input to proceed",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
         });
+
     }
+
+    //////////////////////////////////////////
+    // The following is old material
+    /////////////////////////////////////////
+
+    /*
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
             try{
                 //Audio-Input-return-Activity handler (microphone)
-                if(requestCode == MIC_REQUEST_CODE && resultCode == RESULT_OK){
-                    // get the microphone input from the activity and display on screen
-                    if(data != null && data.hasExtra(TAG_FILENAME)){
-                        micFileName = data.getExtras().getString(TAG_FILENAME);
+                if(resultCode == RESULT_OK) {
+                    if(requestCode == MIC_REQUEST_CODE) {
+                        // get the microphone input from the activity and display on screen
+                        if (data != null && data.hasExtra(TAG_FILENAME)) {
+                            micFileName = data.getExtras().getString(TAG_FILENAME);
+                        }
 
 
-                //Camera-return-Activity handler
-            } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-                ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.mainActivityLayout);
-                LinearLayout linearLayout = (LinearLayout)findViewById(R.id.imagesLayout);
+                    } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                        ConstraintLayout layout = (ConstraintLayout)findViewById(R.id.mainActivityLayout);
+                        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.imagesLayout);
 
-                Log.i(TAG_MAINACTIVITY, "Camera Activity returned!");
-                Bundle extras = data.getExtras();
+                        Log.i(TAG_MAINACTIVITY, "Camera Activity returned!");
+                        Bundle extras = data.getExtras();
 
-                imageBitmap = (Bitmap) extras.get("data");
-                ImageView pic = (ImageView) new ImageView(this);
-                pic.setId(lastImage);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams
-                        (LinearLayout.LayoutParams.WRAP_CONTENT,
-                                LinearLayout.LayoutParams.MATCH_PARENT);
-                lp.setMarginStart(10);
-                lp.setMarginEnd(10);
-                pic.setLayoutParams(lp);
-                pic.setImageBitmap(imageBitmap);
-                linearLayout.addView(pic);
-                images.add(lastImage++);
+                        imageBitmap = (Bitmap) extras.get("data");
+                        ImageView pic = (ImageView) new ImageView(this);
+                        pic.setId(lastImage);
+                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams
+                                (LinearLayout.LayoutParams.WRAP_CONTENT,
+                                        LinearLayout.LayoutParams.MATCH_PARENT);
+                        lp.setMarginStart(10);
+                        lp.setMarginEnd(10);
+                        pic.setLayoutParams(lp);
+                        pic.setImageBitmap(imageBitmap);
+                        linearLayout.addView(pic);
+                        images.add(lastImage++);
+                        Log.d(TAG_MAINACTIVITY, "here");
 
-                /*
-                ConstraintSet constraintSet = new ConstraintSet();
-                constraintSet.clone(layout);
-                constraintSet.connect(pic.getId(), ConstraintSet.BOTTOM,
-                        R.id.userInput, ConstraintSet.TOP);
-                if (lastImage == 1) {
-                    constraintSet.connect(pic.getId(), ConstraintSet.START,
-                            R.id.mainActivityLayout, ConstraintSet.START);
-                } else {
-                    constraintSet.connect(pic.getId(), ConstraintSet.START,
-                            lastImage - 1, ConstraintSet.END);
-                }
-                constraintSet.applyTo(layout);
-
-                 */
-                //ImageView picture = (ImageView) findViewById(R.id.pictureImageView);
-                //picture.setImageBitmap(imageBitmap);
-            } else if (requestCode == TEXTBOX_REQUEST_CODE && resultCode == RESULT_OK){
-                if (data != null && data.hasExtra(TEXTBOX_KEY)) {
-                    userInput = (TextView) findViewById(R.id.userInput);
-                    userInput.setText(data.getExtras().getString(TEXTBOX_KEY));
-                    userInput.setMovementMethod(new ScrollingMovementMethod());
-                }
-            }
-
-
-                    //Camera-return-Activity handler
-                } else if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
-                    Log.i(TAG_MAINACTIVITY, "Camera Activity returned!");
-                    Bundle extras = data.getExtras();
-                    imageBitmap = (Bitmap) extras.get("data");
-
-                }else if(requestCode == TEXTBOX_REQUEST_CODE && resultCode == RESULT_OK){
-                    if(data != null && data.hasExtra(TEXTBOX_KEY)){
-                        userInputString = data.getExtras().getString(TEXTBOX_KEY);
-
+                    } else if (requestCode == TEXTBOX_REQUEST_CODE) {
+                        if(data != null && data.hasExtra(TEXTBOX_KEY)){
+                            userInputString = data.getExtras().getString(TEXTBOX_KEY);
+                            TextView textView = (TextView)findViewById(R.id.userInput);
+                            textView.setText(userInputString);
+                        }
                     }
-                }
+
+            }
                 //catches the NullPointerException made by hasExtra method or getString method
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 e.printStackTrace();
                 Log.e(TAG_MAINACTIVITY, "Method hasExtra or getString failed - onActivityResult");
             }
@@ -402,18 +260,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
         //add to the array of chosen feelings
     }
 
+    */
 
+    //////////////////////////////////////////
+    // End of old material
+    /////////////////////////////////////////
 
-
-
-
-
-
-
-
+    /*
     // THIS IS A FUTURE ADD - MOVING DRAGGED FEELING BUTTONS
     // NOT IMPLEMENTED CURRENTLY BECAUSE WE HAVE BIGGER THINGS TO WORRY ABOUT
     //TODO - add functionality to the moving button feelings - MAYBE - as an added bonus  - it's hard and irrelevant
@@ -445,6 +303,157 @@ public class MainActivity extends AppCompatActivity {
 //            return true;
 //        }
 //    }
+    */
 
+    /**
+     * Send HTTP request to server and handle response
+     *
+     * @param text - the user's input text which will be analyzed
+     */
+    public void sendAnalysisRequest(String text) {
+        JSONObject requestObject = new JSONObject();
+        try {
+            requestObject.put("text", text);
+        } catch (JSONException e) {
+            Log.d(TAG_MAINACTIVITY, "JSON error");
+        }
 
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, REQUEST_URL + "analyze",
+                requestObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i(TAG_MAINACTIVITY, "Message sent successfully");
+                try {
+                    JSONObject result = response.getJSONObject("result");
+                    Log.i(TAG_MAINACTIVITY, result.toString());
+                    Intent intent = new Intent(MainActivity.this, FeelingsActivity.class);
+                    intent.putExtra("result", result.toString());
+                    intent.putExtra("text", userInputString);
+                    loadingPanel.setVisibility(View.GONE);
+                    startActivity(intent);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError e) {
+                e.printStackTrace();
+            }
+        });
+        _queue.add(req);
+    }
+
+    @Override
+    public void navigateTo(Fragment fragment, boolean addToBackstack) {
+        FragmentTransaction transaction =
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, fragment);
+        if (addToBackstack) {
+            transaction.addToBackStack(null);
+        }
+        transaction.commit();
+    }
+
+    /**
+     * Navigate to sign-up fragment
+     */
+    public void goToSignup() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.mainActivityLayout, new UserDetailsFragment())
+                .commit();
+    }
+
+    /**
+     * Checks whether the user exists in the database
+     * If so, retrieves their info
+     * If not, redirects them to sign-up page
+     *
+     * @param token - device token which is the key for each user in the DB
+     */
+    public void getUser(String token) {
+        db.child("users").child(token).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (!dataSnapshot.exists()) {
+                    // Navigate to fragment where new users can sign up:
+                    goToSignup();
+                } else {
+                    currentUser = dataSnapshot.getValue(User.class);
+                    assert currentUser != null;
+                    updateHeadline(currentUser.getName()); // Update UI to display the user's name
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG_MAINACTIVITY, databaseError.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Updates the MainActivity headline to greet the user by name
+     *
+     * @param name - the user's name
+     */
+    @SuppressLint("SetTextI18n")
+    public void updateHeadline(String name) {
+        TextView headline = (TextView) findViewById(R.id.headline);
+        headline.setText("Hi " + name + "! Tell me about your day.");
+    }
+
+    private class AsyncOp extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            final Semaphore semaphore = new Semaphore(0);
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                @Override
+                public void onSuccess(InstanceIdResult instanceIdResult) {
+                    token = instanceIdResult.getToken();
+                    JSONObject requestObject = new JSONObject();
+                    try {
+                        requestObject.put("token", token);
+                        semaphore.release();
+                    } catch (JSONException e) {
+                        Log.e(TAG_MAINACTIVITY, token);
+                        semaphore.release();
+                    }
+                    JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, REQUEST_URL + "token",
+                            requestObject, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.i(TAG_MAINACTIVITY, "Token saved successfully");
+                        }
+                    },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.e(TAG_MAINACTIVITY, "Failed to save token - " + error);
+                                }
+                            });
+
+                    _queue.add(req);
+                }
+            });
+
+            try {
+                semaphore.acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return token;
+        }
+
+        @Override
+        protected void onPostExecute(String token) {
+            getUser(token);
+        }
+    }
 }

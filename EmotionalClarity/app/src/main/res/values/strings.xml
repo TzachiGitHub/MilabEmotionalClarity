@@ -34,7 +34,24 @@
     <string name="textButtonDesc">Activates the TextboxActivity</string>
     <string name="title_activity_feelings">FeelingsActivity</string>
     <string name="title_activity_emotion_info">EmotionInfoActivity</string>
-    <string name="back_button">Back</string>    
+    <string name="back_button">Back</string>
+    <string name="welcome1">Hey there, and welcome to FeelYou!\n</string>
+    <string name="welcome2">FeelYou is an app where you can share your emotions and experiences.</string>
+    <string name="welcome3">So how does it work?</string>
+    <string name="welcome4">You tell us what you\'ve been through today, and we\'ll help you understand what emotions you\'re currently feeling.</string>
+    <string name="welcome5">The better we understand our emotions, the better we understand ourselves.</string>
+    <string name="privacyNotice">*Disclaimer: FeelYou is a private application.\nThe information shared here will be seen by nobody but you.</string>
+    <string name="press_to_start">Press to start</string>
+    <string name="who_am_i">Who am I?</string>
+    <string name="continueButton">Continue</string>
+    <string name="other">Other</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="gender">Gender:</string>
+    <string name="let_s_begin">Let\'s begin</string>
+    <string name="input_hint">Who did you meet? Where did you go? What did you feel?</string>
+    <string name="add_emotions">Add emotions</string>
+    <string name="done">Done</string>
 
     <string-array name="feelingsArray">
         <item>שמח</item>

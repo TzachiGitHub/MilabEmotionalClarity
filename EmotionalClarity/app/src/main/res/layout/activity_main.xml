@@ -1,272 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/view_root"
+<android.widget.RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainActivityLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fadeScrollbars="false"
+    android:background="@drawable/gradient_color_blue"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/trashImageView"
-        android:layout_width="57dp"
-        android:layout_height="62dp"
-        android:layout_marginStart="148dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="trash icon for deleting feelings"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/trashicon" />
-
-    <ImageView
-        android:id="@+id/calenderImageView"
-        android:layout_width="57dp"
-        android:layout_height="62dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="calender button - for looking up old stories"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/refreshImageView"
-        app:srcCompat="@drawable/calendericon" />
-
-    <Button
-        android:id="@+id/start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/start"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.519" />
-
     <TextView
-        android:id="@+id/userInput"
-        android:layout_width="376dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="260dp"
-        android:fadeScrollbars="false"
-        android:scrollbarAlwaysDrawHorizontalTrack="false"
-        android:scrollbarAlwaysDrawVerticalTrack="false"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.771" />
-
-    <ImageButton
-        android:id="@+id/micStart"
-        android:layout_width="57dp"
-        android:layout_height="49dp"
-        android:contentDescription="@string/micButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cameraButton"
-        app:layout_constraintHorizontal_bias="0.447"
-        app:layout_constraintStart_toEndOf="@+id/textButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.447"
-        app:srcCompat="@drawable/microphonebutton" />
-
-    <ImageButton
-        android:id="@+id/playButton"
-        android:layout_width="5dp"
-        android:layout_height="4dp"
-        android:layout_marginStart="411dp"
-        android:layout_marginEnd="133dp"
-        android:contentDescription="@string/playButton"
-        android:onClick="micOutputListener"
-        android:scaleType="fitXY"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/playbutton" />
-
-
-    <ImageButton
-        android:id="@+id/cameraButton"
-        android:layout_width="58dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="76dp"
-        android:contentDescription="@string/cameraButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45"
-        app:srcCompat="@drawable/camerabutton" />
-
-    <ImageButton
-        android:id="@+id/textButton"
-        android:layout_width="64dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="76dp"
-        android:contentDescription="@string/textButtonDesc"
-        android:fitsSystemWindows="false"
-        android:focusableInTouchMode="false"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.445"
-        app:srcCompat="@drawable/textboxbutton" />
-
-    <Button
-        android:id="@+id/circleFeeling"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/btn_background"
-        android:onClick="feelingsListener"
-        android:tag="0"
-        android:text="@string/Relieved"
+        android:id="@+id/headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"
+        android:layout_alignParentTop="true"
         android:textAllCaps="false"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.994"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.54" />
+        android:textSize="36sp"
+        android:gravity="center"/>
 
-    <Button
-        android:id="@+id/circleFeeling1"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/btn_background"
-        android:onClick="feelingsListener"
-        android:tag="1"
-        android:text="@string/Confused"
-        android:textAllCaps="false"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.131" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="#FFFFFF"
+        android:layout_below="@+id/headline"
+        android:hint="@string/input_hint">
 
-    <Button
-        android:id="@+id/circleFeeling2"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/btn_background"
-        android:onClick="feelingsListener"
-        android:tag="2"
-        android:text="@string/Hateful"
-        android:textAllCaps="false"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.962"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
-
-    <Button
-        android:id="@+id/circleFeeling3"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/btn_background"
-        android:onClick="feelingsListener"
-        android:tag="3"
-        android:text="@string/Disappointed"
-        android:textAllCaps="false"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.128"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.287" />
-
-    <Button
-        android:id="@+id/circleFeeling4"
-        android:layout_width="59dp"
-        android:layout_height="52dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/btn_background"
-        android:onClick="feelingsListener"
-        android:tag="4"
-
-        android:text="@string/Thrilled"
-        android:textAllCaps="false"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.284" />
-
-    <Button
-        android:id="@+id/circleFeeling5"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/btn_background"
-        android:onClick="feelingsListener"
-        android:tag="5"
-        android:text="@string/Stressed"
-        android:textAllCaps="false"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.159" />
-
-    <Button
-        android:id="@+id/addFeelings"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/btn_background"
-        android:text="@string/plus"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start" />
-
-    <ImageView
-        android:id="@+id/refreshImageView"
-        android:layout_width="57dp"
-        android:layout_height="62dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="refresh button - restarts every value"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/refreshicon" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:inputType="textMultiLine|text"
+            android:maxLines="5" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginBottom="17dp"
+        android:layout_margin="4dp"
         android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_below="@+id/hint"
+        android:layout_centerHorizontal="true"/>
 
-    <LinearLayout
-        android:id="@+id/imagesLayout"
-        android:layout_width="372dp"
-        android:layout_height="68dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/userInput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addFeelings"
-        app:layout_constraintVertical_bias="0.697"></LinearLayout>
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/nextButton"
+        android:gravity="center"
+        android:elevation="4dp">
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</android.widget.RelativeLayout>
+

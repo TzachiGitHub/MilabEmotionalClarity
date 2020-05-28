@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "531072916045-3iha6t3g1usn9jco75071hmuvfbd2a4d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.emotionalclarity",
+            "certificate_hash": "675a8a915cc5f9bebbc947ccac6de235819be44e"
+          }
+        },
+        {
           "client_id": "531072916045-d56taa4f9p3iop14f6jmv7lttbirehp1.apps.googleusercontent.com",
           "client_type": 3
         }

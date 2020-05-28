@@ -43,7 +43,6 @@ public class finalScreen extends AppCompatActivity {
         setContentView(R.layout.activity_final_screen);
 
         input = getIntent().getExtras();
-
         if(input != null){
             //audio input handler
             audioFileName = input.getString(USER_AUDIO_KEY);

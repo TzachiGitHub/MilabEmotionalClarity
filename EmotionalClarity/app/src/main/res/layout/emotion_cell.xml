@@ -1,41 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/emotionCell"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layoutDirection="ltr"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:clipToPadding="true"
+    android:layout_margin="15dp">
 
-    <CheckBox
-        android:id="@+id/checkEmotion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:text="" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/emotionName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/checkEmotion"
-        android:layout_centerVertical="true"
-        android:textSize="36sp"
-        android:textColor="#000000" />
+        <TextView
+            android:id="@+id/emotionName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textSize="26sp"
+            android:layout_marginStart="10dp"
+            android:textColor="#000000"/>
 
-    <Button
-        android:id="@+id/infoButton"
-        android:layout_width="40sp"
-        android:layout_height="40sp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:paddingTop="12sp"
-        android:paddingEnd="12sp"
-        android:text="i"
-        android:textAllCaps="false"
-        android:textSize="20sp"
-        tools:ignore="RtlSymmetry" />
+        <ImageButton
+            android:id="@+id/trashButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/trash_icon"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp"/>
 
+    </RelativeLayout>
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/zero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textSize="16sp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text=" 0 "/>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/zero"
+            android:layout_toStartOf="@+id/ten"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:thumbTint="#0f70ab"
+            android:progressTint="#0f70ab"
+            android:progressBackgroundTint="#1098ec" />
+
+        <TextView
+            android:id="@+id/ten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textSize="16sp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="10"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
