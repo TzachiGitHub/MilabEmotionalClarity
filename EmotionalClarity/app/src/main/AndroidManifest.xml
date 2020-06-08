@@ -23,19 +23,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".EmotionInfoActivity"
-            android:label="@string/title_activity_emotion_info"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".finalScreen" />
-        <activity
             android:name=".FeelingsActivity"
             android:label="@string/title_activity_feelings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TextboxActivity" />
-        <activity
-            android:name=".AudioRecordTest"
-            android:label="@string/title_activity_audio_record_test"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
+
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.Launcher">

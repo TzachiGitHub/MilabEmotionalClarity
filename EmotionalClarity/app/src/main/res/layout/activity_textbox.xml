@@ -14,7 +14,6 @@
         android:layout_marginTop="17dp"
         android:layout_marginEnd="88dp"
         android:gravity="center"
-        android:text="@string/textboxGreeting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +27,6 @@
         android:layout_marginEnd="21dp"
         android:ems="10"
         android:gravity="clip_horizontal"
-        android:hint="@string/I_feel"
         android:inputType="textMultiLine|text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +40,6 @@
         android:layout_marginTop="18dp"
         android:layout_marginEnd="88dp"
         android:layout_marginBottom="271dp"
-        android:text="@string/finishedTextbox"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

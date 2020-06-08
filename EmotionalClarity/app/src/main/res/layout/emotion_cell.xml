@@ -6,7 +6,10 @@
     android:layoutDirection="ltr"
     android:orientation="vertical"
     android:clipToPadding="true"
-    android:layout_margin="15dp">
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginBottom="12dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -55,10 +58,10 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:thumbTint="#0f70ab"
-            android:progressTint="#0f70ab"
-            android:progressBackgroundTint="#1098ec" />
+            android:layout_marginBottom="15dp"
+            android:thumbTint="@color/blueDark"
+            android:progressTint="@color/blueDark"
+            android:progressBackgroundTint="@color/bluePrimary" />
 
         <TextView
             android:id="@+id/ten"

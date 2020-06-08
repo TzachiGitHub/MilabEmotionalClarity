@@ -1,17 +1,15 @@
 package com.example.emotionalclarity;
 
 public class Tone {
-    String[] emotions;
-    int[] colors;
-    public Tone(String[] emotions, int startColor, int endColor) {
+    private String[] emotions;
+    private int color;
+    public Tone(String[] emotions, int color) {
         this.emotions = emotions;
-        this.colors = new int[]{startColor, endColor};
+        this.color = color;
     }
 
-    public int getStartColor() {
-        return colors[0];
+    public int getColor() {
+        return color;
     }
-    public int getEndColor() {
-        return colors[1];
-    }
+
 }

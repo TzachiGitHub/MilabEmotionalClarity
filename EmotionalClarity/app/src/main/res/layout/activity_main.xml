@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainActivityLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fadeScrollbars="false"
-    android:background="@drawable/gradient_color_blue"
+    android:background="@color/peach"
     tools:context=".MainActivity">
 
     <TextView
@@ -17,25 +17,29 @@
         android:layout_margin="15dp"
         android:layout_alignParentTop="true"
         android:textAllCaps="false"
-        android:textSize="36sp"
+        android:textSize="30sp"
         android:gravity="center"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:background="#FFFFFF"
+        android:layout_margin="10dp"
         android:layout_below="@+id/headline"
-        android:hint="@string/input_hint">
+        android:hint="@string/input_hint"
+        app:boxStrokeColor="@color/blueDark"
+        app:hintTextColor="@color/bluePrimary"
+        android:textColorHint="@color/blueDark">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/userInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
             android:scrollbarAlwaysDrawHorizontalTrack="false"
             android:scrollbarAlwaysDrawVerticalTrack="true"
-            android:inputType="textMultiLine|text"
+            android:inputType="textMultiLine|textCapSentences"
+            android:minLines="4"
             android:maxLines="5" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -46,6 +50,7 @@
         android:layout_margin="4dp"
         android:text="@string/next"
         android:layout_below="@+id/hint"
+        android:backgroundTint="@color/blueDark"
         android:layout_centerHorizontal="true"/>
 
     <RelativeLayout
@@ -59,7 +64,9 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true" />
+            android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/bluePrimary"/>
     </RelativeLayout>
 
 </android.widget.RelativeLayout>

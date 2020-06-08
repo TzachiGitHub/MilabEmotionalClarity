@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_color_blue"
     android:elevation="2dp"
+    android:background="@color/peach"
     tools:context=".UserDetailsFragment">
 
     <LinearLayout
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="@string/welcome5"
+            android:text="@string/welcome2"
             android:textAllCaps="false"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -65,14 +65,16 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:hint="Name:"
-            android:textColorHint="#333333"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:boxStrokeColor="@color/blueDark"
+            app:hintTextColor="@color/bluePrimary"
+            android:textColorHint="@color/blueDark">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/nameOfUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="textCapSentences"
+                android:backgroundTint="#FFFFFF"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/male"
                 android:layoutDirection="ltr"
-                android:buttonTint="@color/colorPrimary"/>
+                android:buttonTint="@color/bluePrimary"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/Female"
@@ -108,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/female"
                 android:layoutDirection="ltr"
-                android:buttonTint="@color/colorPrimary"/>
+                android:buttonTint="@color/bluePrimary"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/Other"
@@ -116,16 +118,17 @@
                 android:layout_height="wrap_content"
                 android:text="@string/other"
                 android:layoutDirection="ltr"
-                android:buttonTint="@color/colorPrimary"/>
+                android:buttonTint="@color/bluePrimary"/>
         </RadioGroup>
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/beginButton"
             android:layout_width="wrap_content"
-            android:layout_height="38dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/let_s_begin"
             android:textAllCaps="false"
+            android:backgroundTint="@color/blueDark"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"/>
 
         <TextView

@@ -3,4 +3,10 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!-- Custom-themed colors -->
+    <color name="peach">#FFF3E0</color>
+    <color name="bluePrimary">#81D4FA </color>
+    <color name="blueDark">#00ACC1</color>
+    <color name="white">#FFFFFF</color>
 </resources>
