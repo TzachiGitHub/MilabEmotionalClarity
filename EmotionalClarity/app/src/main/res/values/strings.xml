@@ -10,39 +10,25 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="description">"This is the microphone button - press here to record an Audio"</string>
-    <string name="start">"Start"</string>
-    <string name="toBeUpdated">"This is to be deleted or updated"</string>
-    <string name="micButton">"This is the microphone start button which activates the AudioRecordTest Activity (- soon to be fragment)"</string>
-    <string name="playButton">"This button activates the sound which was recorded in the AudioRecordTest Activity"</string>
-    <string name="cameraButton">"This button activates the camera features - in an Activity (- soon to be fragment)"</string>
-    <string name="pictureImageView">"This ImageView holds the current pictures taken by the user"</string>
-    <string name="textboxGreeting">"How do you feel?"</string>
-    <string name="finishedTextbox">"I am ready to move forward"</string>
-
-    <string name="I_feel">"I feel…"</string>
-    <string name="Relieved">Relieved</string>
-    <string name="Confused">Confused</string>
-    <string name="Hateful">Hateful</string>
-    <string name="Disappointed">Disappointed</string>
-    <string name="Thrilled">Thrilled</string>
-    <string name="Stressed">Stressed</string>
-
     <string name="plus">+</string>
     <string name="textButtonDesc">Activates the TextboxActivity</string>
     <string name="title_activity_feelings">FeelingsActivity</string>
     <string name="title_activity_emotion_info">EmotionInfoActivity</string>
-    <string name="back_button">Back</string>    
-
-    <string-array name="feelingsArray">
-        <item>שמח</item>
-        <item>עצוב</item>
-        <item>כועס</item>
-        <item>מבולבל</item>
-        <item>מצוברח</item>
-        <item>מתוסכל</item>
-    </string-array>
+    <string name="back_button">Back</string>
+    <string name="welcome1">Hey there, and welcome to FeelYou!\n</string>
+    <string name="welcome2">The better we understand our emotions, the better we understand ourselves.</string>
+    <string name="privacyNotice">*Disclaimer: FeelYou is a private application.\nThe information shared here will be seen by nobody but you.</string>
+    <string name="press_to_start">Press to start</string>
+    <string name="who_am_i">Who am I?</string>
+    <string name="continueButton">Continue</string>
+    <string name="other">Other</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="gender">Gender:</string>
+    <string name="let_s_begin">Let\'s begin</string>
+    <string name="input_hint">What did you do? What did you feel?</string>
+    <string name="add_emotions">Add emotions</string>
+    <string name="done">Done</string>
+    <string name="add_selected">Add selected</string>
 
 </resources>
