@@ -23,19 +23,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.functions.FirebaseFunctionsException;
-import com.google.firebase.functions.HttpsCallableResult;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
@@ -52,18 +46,16 @@ public class MainActivity extends AppCompatActivity implements NavigationHost, F
     //volley and firebase related variables
     private RequestQueue _queue;
     private static String token = "";
-    //private static final String REQUEST_URL = "http://192.168.43.154:3000/";
-    private static final String REQUEST_URL = "https://us-central1-emotional-clarity-9ced0.cloudfunctions.net/app";
+    private static final String REQUEST_URL = "http://192.168.43.154:8080/";
+    //private static final String REQUEST_URL = "https://emotional-clarity-9ced0.web.app";
 
     User currentUser;
     DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-    private FirebaseFunctions mFunctions;
 
     RelativeLayout loadingPanel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mFunctions = FirebaseFunctions.getInstance("us-central1");
         // Send token to server
         _queue = Volley.newRequestQueue(this);
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
@@ -121,35 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost, F
                     // Show loading panel and send request to analyze text:
                     loadingPanel.setVisibility(View.VISIBLE);
                     sendAnalysisRequest(userInputString);
-                    /*
-                    sendAnalysisRequest(userInputString).addOnCompleteListener(new OnCompleteListener<JSONObject>() {
-
-                        @Override
-                        public void onComplete(@NonNull Task<JSONObject> task) {
-                            if (!task.isSuccessful()) {
-                                Exception e = task.getException();
-                                if (e instanceof FirebaseFunctionsException) {
-                                    FirebaseFunctionsException ffe = (FirebaseFunctionsException) e;
-                                    FirebaseFunctionsException.Code code = ffe.getCode();
-                                    Object details = ffe.getDetails();
-                                }
-
-                                // [START_EXCLUDE]
-                                Log.w(TAG_MAINACTIVITY, "onFailure", e);
-                                return;
-                                // [END_EXCLUDE]
-                            }
-
-                            JSONObject result = task.getResult();
-                            Intent intent = new Intent(MainActivity.this, FeelingsActivity.class);
-                            intent.putExtra("result", result.toString());
-                            intent.putExtra("text", userInputString);
-                            // Make loading panel vanish:
-                            loadingPanel.setVisibility(View.GONE);
-                            startActivity(intent);
-                        }
-                    });
-                    */
                 } else {
                     // If no input was given:
                     Toast.makeText(v.getContext(), "Please share some input to proceed",
@@ -174,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost, F
         } catch (JSONException e) {
             Log.d(TAG_MAINACTIVITY, "JSON error");
         }
-
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, REQUEST_URL + "analyze",
                 requestObject, new Response.Listener<JSONObject>() {
             @Override
@@ -201,18 +163,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost, F
             }
         });
         _queue.add(req);
-
-
-        /*
-        return mFunctions.getHttpsCallable("/analyze").call(requestObject)
-                .continueWith(new Continuation<HttpsCallableResult, JSONObject>() {
-                    @Override
-                    public JSONObject then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                        JSONObject result = (JSONObject) Objects.requireNonNull(task.getResult()).getData();
-                        return result;
-                    }
-                });
-        */
     }
 
     @Override

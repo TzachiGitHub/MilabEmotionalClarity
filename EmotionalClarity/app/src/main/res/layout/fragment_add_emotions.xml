@@ -8,7 +8,7 @@
     android:layout_centerVertical="true"
     android:layout_margin="20dp"
     android:background="@drawable/rounded_corner_fragment"
-    android:backgroundTint="@color/peach"
+    android:backgroundTint="@color/background"
     tools:context=".AddEmotionsFragment"
     android:orientation="vertical">
     
@@ -38,7 +38,7 @@
         android:layout_gravity="center"
         android:text="@string/add_selected"
         android:textAllCaps="false"
-        android:backgroundTint="@color/blueDark"
+        android:backgroundTint="@color/buttons"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Button"/>
 
 </LinearLayout>

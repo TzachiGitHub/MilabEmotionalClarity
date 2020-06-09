@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:elevation="2dp"
-    android:background="@color/peach"
+    android:background="@color/background"
     tools:context=".UserDetailsFragment">
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:gravity="center"
             android:text="@string/welcome1"
             android:textAllCaps="false"
-            android:textColor="#000000"
+            android:textColor="@color/headlines"
             android:textSize="34sp"
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
             android:gravity="center"
             android:text="@string/welcome2"
             android:textAllCaps="false"
-            android:textColor="#000000"
+            android:textColor="@color/headlines"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/who_am_i"
-            android:textColor="#333333"
+            android:textColor="@color/headlines"
             android:textAllCaps="true"
             android:textSize="30sp" />
 
@@ -66,7 +66,7 @@
             android:layout_margin="4dp"
             android:hint="Name:"
             app:boxStrokeColor="@color/blueDark"
-            app:hintTextColor="@color/bluePrimary"
+            app:hintTextColor="@color/headlines"
             android:textColorHint="@color/blueDark">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -74,7 +74,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapSentences"
-                android:backgroundTint="#FFFFFF"
+                android:backgroundTint="@color/textboxes"
+                android:textColor="@color/writing"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,7 +85,7 @@
             android:layout_gravity="start"
             android:layout_margin="12dp"
             android:text="@string/gender"
-            android:textColor="#333333"
+            android:textColor="@color/headlines"
             android:textAllCaps="false"
             android:textSize="16sp"/>
 
@@ -102,7 +103,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/male"
                 android:layoutDirection="ltr"
-                android:buttonTint="@color/bluePrimary"/>
+                android:textColor="@color/headlines"
+                android:buttonTint="@color/buttons"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/Female"
@@ -110,7 +112,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/female"
                 android:layoutDirection="ltr"
-                android:buttonTint="@color/bluePrimary"/>
+                android:textColor="@color/headlines"
+                android:buttonTint="@color/buttons"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/Other"
@@ -118,7 +121,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/other"
                 android:layoutDirection="ltr"
-                android:buttonTint="@color/bluePrimary"/>
+                android:textColor="@color/headlines"
+                android:buttonTint="@color/buttons"/>
         </RadioGroup>
 
         <Button
@@ -128,7 +132,7 @@
             android:layout_gravity="center"
             android:text="@string/let_s_begin"
             android:textAllCaps="false"
-            android:backgroundTint="@color/blueDark"
+            android:backgroundTint="@color/buttons"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"/>
 
         <TextView
@@ -145,6 +149,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textSize="12sp"
+            android:textColor="@color/headlines"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
