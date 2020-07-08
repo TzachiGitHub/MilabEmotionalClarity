@@ -58,7 +58,6 @@ app.post('/token', (req, res, next) => {
 
 app.post('/analyze', (req, res, next) => {
 	let promises = [] // To resolve callbacks
-	
 	let scoresMap = {
 		"Happiness": 0,
 		"Fear": 0,

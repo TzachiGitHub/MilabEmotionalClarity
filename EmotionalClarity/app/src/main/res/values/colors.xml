@@ -9,4 +9,11 @@
     <color name="bluePrimary">#81D4FA </color>
     <color name="blueDark">#00ACC1</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="background">#6DCDFF</color>
+    <color name="headlines">#514966</color>
+    <color name="buttons">#F9806A</color>
+    <color name="background_light">#FFFDFD</color>
+    <color name="writing">#F9806A</color>
+
 </resources>

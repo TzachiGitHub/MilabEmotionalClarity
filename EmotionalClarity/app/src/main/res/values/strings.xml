@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EmotionalClarity</string>
+    <string name="app_name">FeelYou</string>
     <string name="title_activity_audio_recored_test">AudioRecoredTest</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -30,5 +30,7 @@
     <string name="add_emotions">Add emotions</string>
     <string name="done">Done</string>
     <string name="add_selected">Add selected</string>
+    <string name="you_seem_to_feel">You seem to feel...</string>
+    <string name="tell_me_about_your_day">Tell me about your day</string>
 
 </resources>

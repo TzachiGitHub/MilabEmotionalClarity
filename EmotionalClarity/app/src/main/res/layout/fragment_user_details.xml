@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:elevation="2dp"
-    android:background="@color/peach"
+    android:elevation="21dp"
+    android:background="@drawable/bubble_top"
     tools:context=".UserDetailsFragment">
 
     <LinearLayout
@@ -26,9 +26,9 @@
             android:gravity="center"
             android:text="@string/welcome1"
             android:textAllCaps="false"
-            android:textColor="#000000"
+            android:textColor="@color/headlines"
             android:textSize="34sp"
-            android:textStyle="italic"
+            android:textStyle="italic|bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
             android:gravity="center"
             android:text="@string/welcome2"
             android:textAllCaps="false"
-            android:textColor="#000000"
+            android:textColor="@color/headlines"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,28 +55,45 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/who_am_i"
-            android:textColor="#333333"
+            android:textColor="@color/headlines"
             android:textAllCaps="true"
             android:textSize="30sp" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/nameOfUserTag"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:hint="Name:"
-            app:boxStrokeColor="@color/blueDark"
-            app:hintTextColor="@color/bluePrimary"
-            android:textColorHint="@color/blueDark">
+            app:cardCornerRadius="20dp"
+            app:cardElevation="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nameOfUser"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nameOfUserTag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapSentences"
-                android:backgroundTint="#FFFFFF"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_margin="4dp"
+                android:hint="Name:"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:hintTextColor="#C4C4C4"
+                android:textColorHint="#C4C4C4"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp"
+                app:boxCornerRadiusTopStart="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nameOfUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences"
+                    android:backgroundTint="@color/background_light"
+                    android:textColor="@color/writing"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="match_parent"
@@ -84,7 +101,7 @@
             android:layout_gravity="start"
             android:layout_margin="12dp"
             android:text="@string/gender"
-            android:textColor="#333333"
+            android:textColor="@color/headlines"
             android:textAllCaps="false"
             android:textSize="16sp"/>
 
@@ -102,7 +119,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/male"
                 android:layoutDirection="ltr"
-                android:buttonTint="@color/bluePrimary"/>
+                android:textColor="@color/headlines"
+                android:buttonTint="@color/buttons"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/Female"
@@ -110,7 +128,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/female"
                 android:layoutDirection="ltr"
-                android:buttonTint="@color/bluePrimary"/>
+                android:textColor="@color/headlines"
+                android:buttonTint="@color/buttons"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/Other"
@@ -118,7 +137,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/other"
                 android:layoutDirection="ltr"
-                android:buttonTint="@color/bluePrimary"/>
+                android:textColor="@color/headlines"
+                android:buttonTint="@color/buttons"/>
         </RadioGroup>
 
         <Button
@@ -128,7 +148,7 @@
             android:layout_gravity="center"
             android:text="@string/let_s_begin"
             android:textAllCaps="false"
-            android:backgroundTint="@color/blueDark"
+            android:backgroundTint="@color/buttons"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"/>
 
         <TextView
@@ -145,6 +165,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:textSize="12sp"
+            android:textColor="@color/headlines"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

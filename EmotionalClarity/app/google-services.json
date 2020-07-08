@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:531072916045:android:cb01dd18a3e321481ada04",
         "android_client_info": {
-          "package_name": "com.example.emotionalclarity"
+          "package_name": "com.feelyou.emotional_clarity"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "531072916045-3iha6t3g1usn9jco75071hmuvfbd2a4d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.emotionalclarity",
+            "package_name": "com.feelyou.emotional_clarity",
             "certificate_hash": "675a8a915cc5f9bebbc947ccac6de235819be44e"
           }
         },
