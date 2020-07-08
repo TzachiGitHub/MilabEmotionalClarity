@@ -6,54 +6,86 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fadeScrollbars="false"
-    android:background="@color/background"
+    android:background="@drawable/bubble_top"
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/headline"
+        android:id="@+id/Hi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:layout_alignParentTop="true"
         android:textAllCaps="false"
         android:textSize="30sp"
         android:textColor="@color/headlines"
+        android:textStyle="bold"
         android:gravity="center"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/hint"
+    <TextView
+        android:id="@+id/tellMe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/headline"
-        android:hint="@string/input_hint"
-        app:boxStrokeColor="@color/blueDark"
-        app:hintTextColor="@color/headlines"
-        android:textColorHint="@color/blueDark">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:text="@string/tell_me_about_your_day"
+        android:layout_below="@id/Hi"
+        android:textColor="@color/headlines"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/userInput"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp"
+        android:layout_below="@+id/tellMe"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/textboxes"
-            android:textColor="@color/writing"
-            android:scrollbarAlwaysDrawHorizontalTrack="false"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            android:inputType="textMultiLine|textCapSentences"
-            android:minLines="4"
-            android:maxLines="5" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="@string/input_hint"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:hintTextColor="#C4C4C4"
+            android:textColorHint="#C4C4C4">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/userInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/background_light"
+                android:inputType="textMultiLine|textCapSentences"
+                android:maxLines="9"
+                android:minLines="9"
+                android:scrollbarAlwaysDrawHorizontalTrack="false"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:textColor="@color/writing"
+                android:gravity="top|start"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:text="@string/next"
-        android:layout_below="@+id/hint"
+        android:text="@string/done"
+        android:layout_below="@+id/card"
         android:backgroundTint="@color/buttons"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false"/>
 
     <RelativeLayout
         android:id="@+id/loadingPanel"
@@ -71,5 +103,12 @@
             android:indeterminateTint="@color/buttons"/>
     </RelativeLayout>
 
+    <!--
+    <include
+        layout="@layout/activity_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+     -->
 </android.widget.RelativeLayout>
 
